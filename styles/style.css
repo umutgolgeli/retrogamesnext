@@ -1,0 +1,94 @@
+:root{
+    --primary-color:#6699FF;
+    --secondary-color: #f2f2f2;
+    --border-color:#ddd;
+    --second-border-color: #dcdcdc;
+    --button-color:#FFFFFF;
+
+}
+
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+table {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+.lower{
+    border: none;
+}
+.category-table td,
+.category-table th {
+    width: 100px;
+    height: 40px;
+}
+
+table.upper{
+    margin:0 auto;
+    background: var(--primary-color);
+}
+.upper{
+    padding: 2%;
+}
+.upper img{
+    width: 15%;
+}
+
+.title{
+    font-size: 350%;
+    color: var(--secondary-color);
+    width: 60%;
+}
+.games-table{
+    margin-top: 5%;
+}
+
+.games-table tr:nth-child(even){
+    background-color:var(--secondary-color);
+}
+.category-table{
+    margin-bottom: 73%;
+}
+.category-table th{
+    background-color: var(--secondary-color);
+}
+
+.category-table td{
+    border: 1px solid var(--second-border-color);
+}
+.category-table td:hover{
+    background-color:var(--primary-color);
+    cursor: pointer;
+}
+.game-picture{
+    width: 20%;
+}
+.game-picture img{
+    margin-top: 2%;
+    width:50%;
+}
+.download-link:hover{
+    color: var(--primary-color);
+}
+
+.download-button {
+    display: inline-block;
+    padding: 4% 8%;
+    background-color: var(--primary-color);
+    color: var(--button-color);
+    text-decoration: none;
+}
+
+.download-button:hover {
+    background-color: var(--second-border-color);
+}
+
+
+
+
+
+
