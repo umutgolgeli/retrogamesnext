@@ -1,10 +1,31 @@
+import {useEffect, useState} from "react";
 
 const HomePage = () => {
 
+    const [data, set_data] = useState();
+    async function get_entities(){
+        return fetch("http://localhost:3000/api/hello")
+            .then(res => res.json())
+            .then(data => set_data(data));
+    }
+
+
+    console.log("oyun :" ,data,"\n");
+
+
+    useEffect(()=> {
+       get_entities().then();
+    }, [])
+
+
+
+
+    // const [data, set_data] = useState();
+    // const func = getEntities();
+    // console.log(func.then(data => console.log(data)));
+
     return (
         <>
-
-
             <meta charSet="UTF-8" />
             <title>Retro Games</title>
             <link rel="stylesheet" href="/styles/style.css" />
@@ -27,6 +48,7 @@ const HomePage = () => {
                 <tbody>
                 <tr>
                     <td>
+
                         <table className="category-table">
                             <tbody>
                             <tr>
@@ -283,5 +305,14 @@ const HomePage = () => {
         </>
     );
 };
+
+// export async function getEntities(){
+//     const entities= [];
+//     const res = await fetch('/api/hello')
+//         .then(res => res.text())
+//         .then(data => entities.push(data));
+//
+//     return entities;
+// }
 
 export default HomePage;
