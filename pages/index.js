@@ -66,11 +66,7 @@ const HomePage = () => {
                 </tr>
                 </tbody>
             </table>
-            <ul>
-                {data.map((item) => (
-                    <li key={item.partitionKey}>Items : {item.partitionKey}</li>
-                ))}
-            </ul>
+
             <table className="lower">
                 <tbody>
                 <tr>
@@ -108,224 +104,35 @@ const HomePage = () => {
 
                             <tbody>
                             <tr>
-                                <th>Games</th>
+                                <th>Images</th>
+                                <th>Category</th>
                                 <th>Name</th>
                                 <th>Release Date</th>
-                                <th>Rate</th>
                                 <th>Link</th>
                             </tr>
 
-                            <tr>
-                                <td className="game-picture">
-                                    <img src="game1.jpeg" alt="Game 1" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="game-picture">
-                                    <img src="game2.jpeg" alt="Game 2" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="game-picture">
-                                    <img src="game3.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="game-picture">
-                                    <img src="game4.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="game-picture">
-                                    <img src="game5.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr><tr>
-                                <td className="game-picture">
-                                    <img src="game6.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="game-picture">
-                                    <img src="game7.jpeg" />
-                                </td>
-                                <td>Valorant</td>
-                                <td>20.06.2020</td>
-                                <td>4.5</td>
-                                <td className="download-link">
-                                    <a href="your-file-path" className="download-button">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
+
+                            {data.map((item) => (
+                                <tr key={item.partitionKey}>
+
+                                    <td className="game-picture">
+                                        <img src={item.Image1}  />
+                                    </td>
+                                    <td>{item.partitionKey}</td>
+
+                                    <td>{item.rowKey}</td>
+                                    <td>{item.ReleaseDate}</td>
+
+                                    <td className="download-link">
+                                        <a href={item.SetupFile} className="download-button">
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                            ))}
+
+
+
                             </tbody>
                         </table>
                     </td>
@@ -335,14 +142,5 @@ const HomePage = () => {
         </>
     );
 };
-
-// export async function getEntities(){
-//     const entities= [];
-//     const res = await fetch('/api/hello')
-//         .then(res => res.text())
-//         .then(data => entities.push(data));
-//
-//     return entities;
-// }
 
 export default HomePage;
