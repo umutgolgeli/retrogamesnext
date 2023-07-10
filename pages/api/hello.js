@@ -16,13 +16,14 @@ const serviceClient = new TableServiceClient(
 )
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
-const entities = [];
+
 export async function getTable() {
+  const entities = [];
   let entitiesIter = client.listEntities();
   let i = 1;
   for await (const entity of entitiesIter) {
-    const onur = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
-    entities.push(onur);
+    const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
+    entities.push(item);
     i++;
   }
   return entities;
