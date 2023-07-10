@@ -22,8 +22,8 @@ export async function getTable() {
   let entitiesIter = client.listEntities();
   let i = 1;
   for await (const entity of entitiesIter) {
-    const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
-    entities.push(item);
+    // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
+    entities.push(entity);
     i++;
   }
   return entities;
