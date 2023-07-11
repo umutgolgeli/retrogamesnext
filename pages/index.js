@@ -1,49 +1,99 @@
-import {useEffect, useState} from "react";
-import {log} from "next/dist/server/typescript/utils";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
     const [data, set_data] = useState([]);
+    const [filtredCategory, setFiltredCategory] = useState(null);
 
-    const categories = [
-        "Action",
-        "Adventure",
-        "Arcade",
-        "Board",
-        "Miscellaneous",
-        "Platform Game",
-        "Puzzle",
-        "Race",
-        "Simulation",
-        "Space",
-        "Sport",
-        "Strategy",
-        "Tactical"
+    const buttons = [
+        {
+            name: "All",
+            value: "All"
+        },
+        {
+            name: "Action",
+            value: "Action"
+        },
+        {
+            name: "Adventure",
+            value: "Adventure"
+        },
+        {
+            name: "Arcade",
+            value: "Arcade"
+        },
+        {
+            name: "Board",
+            value: "Board"
+        },
+        {
+            name: "Miscellaneous",
+            value: "Miscellaneous"
+        },
+        {
+            name: "Platform Game",
+            value: "Platform"
+        },
+        {
+            name: "Puzzle",
+            value: "Puzzle"
+        },
+        {
+            name: "Race",
+            value: "Race"
+        },
+        {
+            name: "Simulation",
+            value: "Simulation"
+        },
+        {
+            name: "Space",
+            value: "Space"
+        },
+        {
+            name: "Sport",
+            value: "Sport"
+        },
+        {
+            name: "Strategy",
+            value: "Strategy"
+        },
+        {
+            name: "Tactical",
+            value: "Tactical"
+        }
     ];
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/hello")
-            .then(response => response.json())
-            .then(data => {
-                set_data(data);
-                 // console.log(data);
-            })
-            .catch(error => console.error(error));
+        fetchData();
     }, []);
 
-    const [filtredCategory, setFiltredCategory] = useState(null);
-    useEffect(() => {
-        setFiltredCategory(data);
-    }, []);
-
-    function handleCategory(e) {
-        let typeCategory = e.target.value;
-        typePokemon !== "all"
-            ? setFiltredPokemon(filterPokemon(typePokemon))
-            : setFiltredPokemon(getPokemon());
+    async function fetchData() {
+        try {
+            const response = await fetch("http://localhost:3000/api/hello");
+            const data = await response.json();
+            set_data(data);
+            setFiltredCategory(data);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
+    function filterCategory(categoryType) {
+        if (categoryType === "all") {
+            return data;
+        } else {
+            const filteredData = data.filter(
+                (item) => item.partitionKey === categoryType
+            );
+            return filteredData;
+        }
+    }
 
-    console.log("###mydata###", data);
+    function handleCategory(e) {
+        let categoryType = e.target.value;
+        let filteredData = filterCategory(categoryType);
+        setFiltredCategory(filteredData);
+    }
 
     return (
         <>
@@ -70,15 +120,22 @@ const HomePage = () => {
                 <tbody>
                 <tr>
                     <td>
-
                         <table className="category-table">
                             <tbody>
                             <tr>
                                 <th>Category</th>
                             </tr>
-                            {categories.map((item) => (
+                            {buttons.map((item) => (
                                 <tr>
-                                    <td>{item}</td>
+                                    <td>
+                                        <button
+                                            key={item.value}
+                                            value={item.value}
+                                            onClick={handleCategory}
+                                        >
+                                            {item.name}
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                             </tbody>
@@ -86,8 +143,6 @@ const HomePage = () => {
                     </td>
                     <td>
                         <table className="games-table">
-
-
                             <tbody>
                             <tr>
                                 <th>Images</th>
@@ -96,22 +151,22 @@ const HomePage = () => {
                                 <th>Release Date</th>
                                 <th>Link</th>
                             </tr>
-                            {/*.filter(x => x.partitionKey === "Action")*/}
-                            {data.map((item) => (
-                                <tr key={item.partitionKey}>
-                                    <td className="game-picture">
-                                        <img src={item.Image1}  />
-                                    </td>
-                                    <td>{item.partitionKey}</td>
-                                    <td>{item.rowKey}</td>
-                                    <td>{item.ReleaseDate}</td>
-                                    <td className="download-link">
-                                        <a href={item.SetupFile} className="download-button">
-                                            Download
-                                        </a>
-                                    </td>
-                                </tr>
-                            ))}
+                            {filtredCategory &&
+                                filtredCategory.map((item) => (
+                                    <tr key={item.rowKey}>
+                                        <td className="game-picture">
+                                            <img src={item.Image1} alt={item.rowKey} />
+                                        </td>
+                                        <td>{item.partitionKey}</td>
+                                        <td>{item.rowKey}</td>
+                                        <td>{item.ReleaseDate}</td>
+                                        <td className="download-link">
+                                            <a href={item.SetupFile} className="download-button">
+                                                Download
+                                            </a>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </td>
