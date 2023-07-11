@@ -4,6 +4,22 @@ import {log} from "next/dist/server/typescript/utils";
 const HomePage = () => {
     const [data, set_data] = useState([]);
 
+    const categories = [
+        "Action",
+        "Adventure",
+        "Arcade",
+        "Board",
+        "Miscellaneous",
+        "Platform Game",
+        "Puzzle",
+        "Race",
+        "Simulation",
+        "Space",
+        "Sport",
+        "Strategy",
+        "Tactical"
+    ];
+
     useEffect(() => {
         fetch("http://localhost:3000/api/hello")
             .then(response => response.json())
@@ -13,6 +29,18 @@ const HomePage = () => {
             })
             .catch(error => console.error(error));
     }, []);
+
+    const [filtredCategory, setFiltredCategory] = useState(null);
+    useEffect(() => {
+        setFiltredCategory(data);
+    }, []);
+
+    function handleCategory(e) {
+        let typeCategory = e.target.value;
+        typePokemon !== "all"
+            ? setFiltredPokemon(filterPokemon(typePokemon))
+            : setFiltredPokemon(getPokemon());
+    }
 
 
     console.log("###mydata###", data);
@@ -48,23 +76,11 @@ const HomePage = () => {
                             <tr>
                                 <th>Category</th>
                             </tr>
-                            <tr id = "action">
-                                <td><a href = "#adventure">Action</a></td>
-                            </tr>
-                            <tr id = "arcade">
-                                <td>Arcade</td>
-                            </tr> <tr id = "adventure">
-                                <td>Adventure</td>
-                            </tr><tr id = "board">
-                                <td>Board</td>
-                            </tr><tr id = "adventure">
-                                <td>Sport</td>
-                            </tr><tr id = "strategy">
-                                <td>Strategy</td>
-                            </tr>
-
-
-
+                            {categories.map((item) => (
+                                <tr>
+                                    <td>{item}</td>
+                                </tr>
+                            ))}
                             </tbody>
                         </table>
                     </td>
@@ -80,18 +96,15 @@ const HomePage = () => {
                                 <th>Release Date</th>
                                 <th>Link</th>
                             </tr>
-
+                            {/*.filter(x => x.partitionKey === "Action")*/}
                             {data.map((item) => (
                                 <tr key={item.partitionKey}>
-
                                     <td className="game-picture">
                                         <img src={item.Image1}  />
                                     </td>
                                     <td>{item.partitionKey}</td>
-
                                     <td>{item.rowKey}</td>
                                     <td>{item.ReleaseDate}</td>
-
                                     <td className="download-link">
                                         <a href={item.SetupFile} className="download-button">
                                             Download
@@ -99,9 +112,6 @@ const HomePage = () => {
                                     </td>
                                 </tr>
                             ))}
-
-
-
                             </tbody>
                         </table>
                     </td>

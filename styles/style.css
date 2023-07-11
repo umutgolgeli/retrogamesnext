@@ -51,7 +51,7 @@ table.upper{
     background-color:var(--secondary-color);
 }
 .category-table{
-    margin-bottom: 73%;
+    margin-bottom: 1000%;
 }
 .category-table th{
     background-color: var(--secondary-color);
