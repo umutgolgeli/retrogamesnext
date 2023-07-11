@@ -7,7 +7,7 @@ const HomePage = () => {
     const buttons = [
         {
             name: "All",
-            value: "All"
+            value: "all"
         },
         {
             name: "Action",
@@ -119,7 +119,7 @@ const HomePage = () => {
             <table className="lower">
                 <tbody>
                 <tr>
-                    <td>
+                    <td className="left-column">
                         <table className="category-table">
                             <tbody>
                             <tr>
@@ -128,7 +128,7 @@ const HomePage = () => {
                             {buttons.map((item) => (
                                 <tr>
                                     <td>
-                                        <button
+                                        <button className="my-button"
                                             key={item.value}
                                             value={item.value}
                                             onClick={handleCategory}
@@ -141,7 +141,7 @@ const HomePage = () => {
                             </tbody>
                         </table>
                     </td>
-                    <td>
+                    <td className="right-column">
                         <table className="games-table">
                             <tbody>
                             <tr>

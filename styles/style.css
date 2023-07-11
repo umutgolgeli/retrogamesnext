@@ -13,18 +13,35 @@
     font-family:Arial, Helvetica, sans-serif;
 }
 
+td{
+    vertical-align: top;
+    height: 50px;
+
+}
+
 table {
     width: 100%;
     border: 1px solid var(--border-color);
     text-align: center;
+    table-layout: fixed;
 }
-.lower{
+.lower {
     border: none;
+    margin-top: 5%;
 }
+
+.lower .left-column{
+    width: 15%;
+}
+
+.lower .right-column{
+    width: 85%;
+}
+
 .category-table td,
 .category-table th {
-    width: 100px;
-    height: 40px;
+    width: 100%;
+    vertical-align: middle;
 }
 
 table.upper{
@@ -43,16 +60,14 @@ table.upper{
     color: var(--secondary-color);
     width: 60%;
 }
-.games-table{
-    margin-top: 5%;
+.games-table td{
+    vertical-align: middle;
 }
 
 .games-table tr:nth-child(even){
     background-color:var(--secondary-color);
 }
-.category-table{
-    margin-bottom: 1000%;
-}
+
 .category-table th{
     background-color: var(--secondary-color);
 }
@@ -69,7 +84,7 @@ table.upper{
 }
 .game-picture img{
     margin-top: 2%;
-    width:50%;
+    width:35%;
 }
 .download-link:hover{
     color: var(--primary-color);
@@ -86,6 +101,7 @@ table.upper{
 .download-button:hover {
     background-color: var(--second-border-color);
 }
+
 
 
 
