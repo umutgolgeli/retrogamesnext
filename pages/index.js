@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 const HomePage = () => {
     const [data, set_data] = useState([]);
@@ -7,59 +7,59 @@ const HomePage = () => {
     const buttons = [
         {
             name: "All",
-            value: "all"
+            value: "all",
         },
         {
             name: "Action",
-            value: "Action"
+            value: "Action",
         },
         {
             name: "Adventure",
-            value: "Adventure"
+            value: "Adventure",
         },
         {
             name: "Arcade",
-            value: "Arcade"
+            value: "Arcade",
         },
         {
             name: "Board",
-            value: "Board"
+            value: "Board",
         },
         {
             name: "Miscellaneous",
-            value: "Miscellaneous"
+            value: "Miscellaneous",
         },
         {
             name: "Platform Game",
-            value: "Platform"
+            value: "Platform",
         },
         {
             name: "Puzzle",
-            value: "Puzzle"
+            value: "Puzzle",
         },
         {
             name: "Race",
-            value: "Race"
+            value: "Race",
         },
         {
             name: "Simulation",
-            value: "Simulation"
+            value: "Simulation",
         },
         {
             name: "Space",
-            value: "Space"
+            value: "Space",
         },
         {
             name: "Sport",
-            value: "Sport"
+            value: "Sport",
         },
         {
             name: "Strategy",
-            value: "Strategy"
+            value: "Strategy",
         },
         {
             name: "Tactical",
-            value: "Tactical"
+            value: "Tactical",
         }
     ];
 
@@ -81,12 +81,8 @@ const HomePage = () => {
     function filterCategory(categoryType) {
         if (categoryType === "all") {
             return data;
-        } else {
-            const filteredData = data.filter(
-                (item) => item.partitionKey === categoryType
-            );
-            return filteredData;
         }
+        return data.filter((item) => item.partitionKey === categoryType);
     }
 
     function handleCategory(e) {
@@ -126,13 +122,9 @@ const HomePage = () => {
                                 <th>Category</th>
                             </tr>
                             {buttons.map((item) => (
-                                <tr>
-                                    <td>
-                                        <button className="my-button"
-                                            key={item.value}
-                                            value={item.value}
-                                            onClick={handleCategory}
-                                        >
+                                <tr key={item.name}>
+                                    <td className="td-button">
+                                        <button className="my-button" value={item.value} onClick={handleCategory}>
                                             {item.name}
                                         </button>
                                     </td>
