@@ -27,7 +27,7 @@ table {
 }
 .lower {
     border: none;
-    margin-top: 5%;
+    margin-top: 0.5%;
 }
 
 .lower .left-column{
@@ -49,16 +49,16 @@ table.upper{
     background: var(--primary-color);
 }
 .upper{
-    padding: 2%;
+    padding: 2.5%;
 }
 .upper img{
-    width: 15%;
+    width: 20%;
 }
 
 .title{
     font-size: 350%;
     color: var(--secondary-color);
-    width: 60%;
+    width: 65%;
 }
 .games-table td{
     vertical-align: middle;
@@ -100,30 +100,46 @@ table.upper{
 }
 
 .download-button:hover {
-    background-color: var(--second-border-color);
+    background-color: var(--border-color);
 }
-
 
 .my-button{
     width: 100%;
     height: 100%;
-    table-layout: fixed;
     border-collapse: collapse;
-    background-color: gainsboro;
+    background-color: var(--second-border-color);
     border: none;
-}
 
+}
 .my-button:hover{
     background-color: var(--secondary-color);
     cursor: pointer;
 }
+.my-button:focus {
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
 
-.my-button:focus{
+    background-color: var(--secondary-color);
+}
+
+.link{
+    border-collapse: collapse;
+    border: none;
+    text-decoration: none;
+    color:var(--primary-color) ;
+}
+
+.link:hover{
     color: var(--primary-color);
     background-color: var(--secondary-color);
     border: 1px solid var(--primary-color);
 }
 
+.link:focus{
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+}
 
 
 

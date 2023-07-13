@@ -4,11 +4,7 @@ import unfetch from "isomorphic-unfetch";
 import Link from "next/link";
 
 const HomePage = ({games}) => {
-    // const [data, set_data] = useState([]);
-    // const [filtredCategory, setFiltredCategory] = useState(null);
-    //
-    //
-    //
+
     const buttons = [
         {
             name: "all",
@@ -67,39 +63,18 @@ const HomePage = ({games}) => {
             value: "Tactical",
         }
     ];
-    //
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-    //
-    // async function fetchData() {
-    //     try {
-    //         const response = await fetch("http://localhost:3000/api/hello");
-    //         const data = await response.json();
-    //         set_data(data);
-    //         setFiltredCategory(data);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-    //
-    // function filterCategory(categoryType) {
-    //     if (categoryType === "all") {
-    //         return data;
-    //     }
-    //     return data.filter((item) => item.partitionKey === categoryType);
-    // }
-    //
-    // function handleCategory(e) {
-    //     let categoryType = e.target.value;
-    //     let filteredData = filterCategory(categoryType);
-    //     setFiltredCategory(filteredData);
-    // }
 
     return (
         <>
             <meta charSet="UTF-8" />
+
+
+                    <link rel="icon" href="/favicon.ico" />
+
             <title>Retro Games</title>
+
+
+
             <link rel="stylesheet" href="/styles/style.css" />
             <table className="navbar">
                 <tbody>
@@ -110,7 +85,7 @@ const HomePage = ({games}) => {
                 <tbody>
                 <tr>
                     <td>
-                        <img src="bitsody-logo.png" alt="Logo" />
+                        <img src="/bitsody-logo.png" alt="Logo" />
                     </td>
                     <td className="title">Retro Games</td>
                 </tr>
@@ -127,19 +102,11 @@ const HomePage = ({games}) => {
                                 <th>Category</th>
                             </tr>
 
-                            {/*{buttons.map((item) => (*/}
-                            {/*    <tr key={item.name}>*/}
-                            {/*        <td className="td-button">*/}
-                            {/*            <button className="my-button" value={item.value} onClick={handleCategory}>*/}
-                            {/*                {item.name}*/}
-                            {/*            </button>*/}
-                            {/*        </td>*/}
-                            {/*    </tr>*/}
-                            {/*))}*/}
+
                             {buttons.map((item) => (
                                 <tr key={item.name}>
                                     <td className="td-button">
-                                        <Link href="/categories/[category]" as = {`/categories/${item.name}`}>
+                                        <Link className="link" href="/categories/[category]" as = {`/categories/${item.name}`}>
                                             {item.value}
                                         </Link>
                                     </td>
@@ -177,22 +144,7 @@ const HomePage = ({games}) => {
                                 ))}
 
 
-                            {/*{filtredCategory &&*/}
-                            {/*    filtredCategory.map((item) => (*/}
-                            {/*        <tr key={item.rowKey}>*/}
-                            {/*            <td className="game-picture">*/}
-                            {/*                <img src={item.Image1} alt={item.rowKey} />*/}
-                            {/*            </td>*/}
-                            {/*            <td>{item.partitionKey}</td>*/}
-                            {/*            <td>{item.rowKey}</td>*/}
-                            {/*            <td>{item.ReleaseDate}</td>*/}
-                            {/*            <td className="download-link">*/}
-                            {/*                <a href={item.SetupFile} className="download-button">*/}
-                            {/*                    Download*/}
-                            {/*                </a>*/}
-                            {/*            </td>*/}
-                            {/*        </tr>*/}
-                            {/*    ))}*/}
+
                             </tbody>
                         </table>
                     </td>
@@ -206,12 +158,17 @@ const HomePage = ({games}) => {
 
 
 export async function getStaticProps() {
-    const data = await unfetch("http://localhost:3000/api/hello");
+  try{  const data = await unfetch("http://localhost:3000/api/hello");
     const games = await data.json();
     return {
         props: {
             games,
         }
     }
+}   catch (error)
+{
+  console.log(error)
 }
+}
+
 export default HomePage;
