@@ -1,13 +1,10 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import unfetch from "isomorphic-unfetch";
-import Link from "next/link";
 
-const HomePage = ({games}) => {
+const HomePage = ({params}) => {
     // const [data, set_data] = useState([]);
     // const [filtredCategory, setFiltredCategory] = useState(null);
-    //
-    //
     //
     const buttons = [
         {
@@ -68,6 +65,8 @@ const HomePage = ({games}) => {
         }
     ];
     //
+
+    //
     // useEffect(() => {
     //     fetchData();
     // }, []);
@@ -110,7 +109,7 @@ const HomePage = ({games}) => {
                 <tbody>
                 <tr>
                     <td>
-                        <img src="bitsody-logo.png" alt="Logo" />
+                        <img src="../../public/bitsody-logo.png" alt="Logo" />
                     </td>
                     <td className="title">Retro Games</td>
                 </tr>
@@ -126,22 +125,12 @@ const HomePage = ({games}) => {
                             <tr>
                                 <th>Category</th>
                             </tr>
-
-                            {/*{buttons.map((item) => (*/}
-                            {/*    <tr key={item.name}>*/}
-                            {/*        <td className="td-button">*/}
-                            {/*            <button className="my-button" value={item.value} onClick={handleCategory}>*/}
-                            {/*                {item.name}*/}
-                            {/*            </button>*/}
-                            {/*        </td>*/}
-                            {/*    </tr>*/}
-                            {/*))}*/}
                             {buttons.map((item) => (
                                 <tr key={item.name}>
                                     <td className="td-button">
-                                        <Link href="/categories/[category]" as = {`/categories/${item.name}`}>
+                                        <button className="my-button" value={item.value} >
                                             {item.value}
-                                        </Link>
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -159,26 +148,8 @@ const HomePage = ({games}) => {
                                 <th>Link</th>
                             </tr>
 
-                            {games &&
-                                games.map((item) => (
-                                    <tr key={item.rowKey}>
-                                        <td className="game-picture">
-                                            <img src={item.Image1} alt={item.rowKey} />
-                                        </td>
-                                        <td>{item.partitionKey}</td>
-                                        <td>{item.rowKey}</td>
-                                        <td>{item.ReleaseDate}</td>
-                                        <td className="download-link">
-                                            <a href={item.SetupFile} className="download-button">
-                                                Download
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
-
-
-                            {/*{filtredCategory &&*/}
-                            {/*    filtredCategory.map((item) => (*/}
+                            {/*{games &&*/}
+                            {/*    games.map((item) => (*/}
                             {/*        <tr key={item.rowKey}>*/}
                             {/*            <td className="game-picture">*/}
                             {/*                <img src={item.Image1} alt={item.rowKey} />*/}
@@ -193,6 +164,23 @@ const HomePage = ({games}) => {
                             {/*            </td>*/}
                             {/*        </tr>*/}
                             {/*    ))}*/}
+
+                            {params &&
+                                params.map((item) => (
+                                    <tr key={item.rowKey}>
+                                        <td className="game-picture">
+                                            <img src={item.Image1} alt={item.rowKey} />
+                                        </td>
+                                        <td>{item.partitionKey}</td>
+                                        <td>{item.rowKey}</td>
+                                        <td>{item.ReleaseDate}</td>
+                                        <td className="download-link">
+                                            <a href={item.SetupFile} className="download-button">
+                                                Download
+                                            </a>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </td>
@@ -204,14 +192,100 @@ const HomePage = ({games}) => {
 };
 
 
+export async function getStaticPaths() {
+    const buttons = [
+        {
+            name: "all",
+            value: "All",
+        },
+        {
+            name: "action",
+            value: "Action",
+        },
+        {
+            name: "adventure",
+            value: "Adventure",
+        },
+        {
+            name: "arcade",
+            value: "Arcade",
+        },
+        {
+            name: "board",
+            value: "Board",
+        },
+        {
+            name: "miscellaneous",
+            value: "Miscellaneous",
+        },
+        {
+            name: "platform Game",
+            value: "Platform",
+        },
+        {
+            name: "puzzle",
+            value: "Puzzle",
+        },
+        {
+            name: "race",
+            value: "Race",
+        },
+        {
+            name: "simulation",
+            value: "Simulation",
+        },
+        {
+            name: "space",
+            value: "Space",
+        },
+        {
+            name: "sport",
+            value: "Sport",
+        },
+        {
+            name: "strategy",
+            value: "Strategy",
+        },
+        {
+            name: "tactical",
+            value: "Tactical",
+        }
+    ];
 
-export async function getStaticProps() {
+    const paths = buttons.map(item => {
+        return {params: { category: `${item.name}` }
+    }});
+    console.log("$$$$$$$$$$$$$$")
+    console.log(paths);
+
+    return {
+        paths,
+        fallback: false,
+    };
+}
+
+export async function getStaticProps({ params }) {
+
+    console.log("###########")
+    console.log(params)
+
     const data = await unfetch("http://localhost:3000/api/hello");
     const games = await data.json();
+
+    const filteredData = games.filter((item) => item.partitionKey === params.category);
+
+    console.log("%%%%%%%%%%%%%");
+    console.log(filteredData);
+
+
     return {
         props: {
-            games,
-        }
-    }
+            filteredData,
+        },
+    };
+
+
 }
+
+
 export default HomePage;
