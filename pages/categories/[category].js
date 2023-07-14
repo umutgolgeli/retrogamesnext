@@ -1,11 +1,9 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import unfetch from "isomorphic-unfetch";
+import Link from "next/link";
 
-const HomePage = ({params}) => {
-    // const [data, set_data] = useState([]);
-    // const [filtredCategory, setFiltredCategory] = useState(null);
-    //
+const HomePage = ({filteredData}) => {
     const buttons = [
         {
             name: "all",
@@ -64,36 +62,6 @@ const HomePage = ({params}) => {
             value: "Tactical",
         }
     ];
-    //
-
-    //
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-    //
-    // async function fetchData() {
-    //     try {
-    //         const response = await fetch("http://localhost:3000/api/hello");
-    //         const data = await response.json();
-    //         set_data(data);
-    //         setFiltredCategory(data);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-    //
-    // function filterCategory(categoryType) {
-    //     if (categoryType === "all") {
-    //         return data;
-    //     }
-    //     return data.filter((item) => item.partitionKey === categoryType);
-    // }
-    //
-    // function handleCategory(e) {
-    //     let categoryType = e.target.value;
-    //     let filteredData = filterCategory(categoryType);
-    //     setFiltredCategory(filteredData);
-    // }
 
     return (
         <>
@@ -109,7 +77,7 @@ const HomePage = ({params}) => {
                 <tbody>
                 <tr>
                     <td>
-                        <img src="../../public/bitsody-logo.png" alt="Logo" />
+                        <img src="/bitsody_logo.png" alt="Logo" />
                     </td>
                     <td className="title">Retro Games</td>
                 </tr>
@@ -128,9 +96,9 @@ const HomePage = ({params}) => {
                             {buttons.map((item) => (
                                 <tr key={item.name}>
                                     <td className="td-button">
-                                        <button className="my-button" value={item.value} >
+                                        <Link className= "link" href="/categories/[category]" as = {`/categories/${item.name}`}>
                                             {item.value}
-                                        </button>
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}
@@ -148,25 +116,8 @@ const HomePage = ({params}) => {
                                 <th>Link</th>
                             </tr>
 
-                            {/*{games &&*/}
-                            {/*    games.map((item) => (*/}
-                            {/*        <tr key={item.rowKey}>*/}
-                            {/*            <td className="game-picture">*/}
-                            {/*                <img src={item.Image1} alt={item.rowKey} />*/}
-                            {/*            </td>*/}
-                            {/*            <td>{item.partitionKey}</td>*/}
-                            {/*            <td>{item.rowKey}</td>*/}
-                            {/*            <td>{item.ReleaseDate}</td>*/}
-                            {/*            <td className="download-link">*/}
-                            {/*                <a href={item.SetupFile} className="download-button">*/}
-                            {/*                    Download*/}
-                            {/*                </a>*/}
-                            {/*            </td>*/}
-                            {/*        </tr>*/}
-                            {/*    ))}*/}
-
-                            {params &&
-                                params.map((item) => (
+                            {filteredData &&
+                                filteredData.map((item) => (
                                     <tr key={item.rowKey}>
                                         <td className="game-picture">
                                             <img src={item.Image1} alt={item.rowKey} />
@@ -255,8 +206,6 @@ export async function getStaticPaths() {
     const paths = buttons.map(item => {
         return {params: { category: `${item.name}` }
     }});
-    console.log("$$$$$$$$$$$$$$")
-    console.log(paths);
 
     return {
         paths,
@@ -265,25 +214,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-
-    console.log("###########")
-    console.log(params)
-
     const data = await unfetch("http://localhost:3000/api/hello");
     const games = await data.json();
 
-    const filteredData = games.filter((item) => item.partitionKey === params.category);
 
-    console.log("%%%%%%%%%%%%%");
-    console.log(filteredData);
 
+    let filteredData = games.filter((item) =>
+        item.partitionKey.toLocaleLowerCase() === params.category);
+
+    if (params.category === "all") {
+        filteredData = games;
+    }
 
     return {
         props: {
             filteredData,
         },
     };
-
 
 }
 
