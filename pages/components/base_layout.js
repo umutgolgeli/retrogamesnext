@@ -66,7 +66,7 @@ export default function BaseLayout({children}){
                 <tbody>
                 <tr>
                     <td>
-                        <img src="/bitsody-logo.png" alt="Logo" />
+                        <img src="/bitsody_logo.png" alt="Logo" />
                     </td>
                     <td className="title">Retro Games</td>
                 </tr>
