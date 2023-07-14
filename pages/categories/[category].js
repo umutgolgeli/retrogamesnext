@@ -62,6 +62,36 @@ const HomePage = ({filteredData}) => {
             value: "Tactical",
         }
     ];
+    //
+
+    //
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
+    //
+    // async function fetchData() {
+    //     try {
+    //         const response = await fetch("http://localhost:3000/api/hello");
+    //         const data = await response.json();
+    //         set_data(data);
+    //         setFiltredCategory(data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+    //
+    // function filterCategory(categoryType) {
+    //     if (categoryType === "all") {
+    //         return data;
+    //     }
+    //     return data.filter((item) => item.partitionKey === categoryType);
+    // }
+    //
+    // function handleCategory(e) {
+    //     let categoryType = e.target.value;
+    //     let filteredData = filterCategory(categoryType);
+    //     setFiltredCategory(filteredData);
+    // }
 
     return (
         <>
@@ -96,7 +126,7 @@ const HomePage = ({filteredData}) => {
                             {buttons.map((item) => (
                                 <tr key={item.name}>
                                     <td className="td-button">
-                                        <Link className= "link" href="/categories/[category]" as = {`/categories/${item.name}`}>
+                                        <button className="my-button" value={item.value} >
                                             {item.value}
                                         </Link>
                                     </td>

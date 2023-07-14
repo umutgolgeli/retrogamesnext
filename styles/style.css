@@ -27,7 +27,7 @@ table {
 }
 .lower {
     border: none;
-    margin-top: 5%;
+    margin-top: 0.5%;
 }
 
 .lower .left-column{
@@ -49,16 +49,16 @@ table.upper{
     background: var(--primary-color);
 }
 .upper{
-    padding: 2%;
+    padding: 2.5%;
 }
 .upper img{
-    width: 15%;
+    width: 20%;
 }
 
 .title{
     font-size: 350%;
     color: var(--secondary-color);
-    width: 60%;
+    width: 65%;
 }
 .games-table td{
     vertical-align: middle;
