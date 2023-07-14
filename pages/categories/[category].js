@@ -1,177 +1,40 @@
-import {useEffect, useState} from "react";
-import {useRouter} from "next/router";
+
 import unfetch from "isomorphic-unfetch";
-import Link from "next/link";
+import BaseLayout from "../components/base_layout";
 
-const HomePage = ({filteredData}) => {
-    const buttons = [
-        {
-            name: "all",
-            value: "All",
-        },
-        {
-            name: "action",
-            value: "Action",
-        },
-        {
-            name: "adventure",
-            value: "Adventure",
-        },
-        {
-            name: "arcade",
-            value: "Arcade",
-        },
-        {
-            name: "board",
-            value: "Board",
-        },
-        {
-            name: "miscellaneous",
-            value: "Miscellaneous",
-        },
-        {
-            name: "platform Game",
-            value: "Platform",
-        },
-        {
-            name: "puzzle",
-            value: "Puzzle",
-        },
-        {
-            name: "race",
-            value: "Race",
-        },
-        {
-            name: "simulation",
-            value: "Simulation",
-        },
-        {
-            name: "space",
-            value: "Space",
-        },
-        {
-            name: "sport",
-            value: "Sport",
-        },
-        {
-            name: "strategy",
-            value: "Strategy",
-        },
-        {
-            name: "tactical",
-            value: "Tactical",
-        }
-    ];
-    //
-
-    //
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-    //
-    // async function fetchData() {
-    //     try {
-    //         const response = await fetch("http://localhost:3000/api/hello");
-    //         const data = await response.json();
-    //         set_data(data);
-    //         setFiltredCategory(data);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-    //
-    // function filterCategory(categoryType) {
-    //     if (categoryType === "all") {
-    //         return data;
-    //     }
-    //     return data.filter((item) => item.partitionKey === categoryType);
-    // }
-    //
-    // function handleCategory(e) {
-    //     let categoryType = e.target.value;
-    //     let filteredData = filterCategory(categoryType);
-    //     setFiltredCategory(filteredData);
-    // }
+const FilteredPage = ({filteredData}) => {
 
     return (
-        <>
-            <meta charSet="UTF-8" />
-            <title>Retro Games</title>
-            <link rel="stylesheet" href="/styles/style.css" />
-            <table className="navbar">
-                <tbody>
-                <tr></tr>
-                </tbody>
-            </table>
-            <table className="upper">
-                <tbody>
-                <tr>
-                    <td>
-                        <img src="/bitsody_logo.png" alt="Logo" />
-                    </td>
-                    <td className="title">Retro Games</td>
-                </tr>
-                </tbody>
-            </table>
+                <table className="games-table">
+                    <tbody>
+                    <tr>
+                        <th>Images</th>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Release Date</th>
+                        <th>Link</th>
+                    </tr>
 
-            <table className="lower">
-                <tbody>
-                <tr>
-                    <td className="left-column">
-                        <table className="category-table">
-                            <tbody>
-                            <tr>
-                                <th>Category</th>
+                    {filteredData &&
+                        filteredData.map((item) => (
+                            <tr key={item.rowKey}>
+                                <td className="game-picture">
+                                    <img src={item.Image1} alt={item.rowKey} />
+                                </td>
+                                <td>{item.partitionKey}</td>
+                                <td>{item.rowKey}</td>
+                                <td>{item.ReleaseDate}</td>
+                                <td className="download-link">
+                                    <a href={item.SetupFile} className="download-button">
+                                        Download
+                                    </a>
+                                </td>
                             </tr>
-                            {buttons.map((item) => (
-                                <tr key={item.name}>
-                                    <td className="td-button">
-                                        <button className="my-button" value={item.value} >
-                                            {item.value}
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </td>
-                    <td className="right-column">
-                        <table className="games-table">
-                            <tbody>
-                            <tr>
-                                <th>Images</th>
-                                <th>Category</th>
-                                <th>Name</th>
-                                <th>Release Date</th>
-                                <th>Link</th>
-                            </tr>
-
-                            {filteredData &&
-                                filteredData.map((item) => (
-                                    <tr key={item.rowKey}>
-                                        <td className="game-picture">
-                                            <img src={item.Image1} alt={item.rowKey} />
-                                        </td>
-                                        <td>{item.partitionKey}</td>
-                                        <td>{item.rowKey}</td>
-                                        <td>{item.ReleaseDate}</td>
-                                        <td className="download-link">
-                                            <a href={item.SetupFile} className="download-button">
-                                                Download
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </>
+                        ))}
+                    </tbody>
+                </table>
     );
 };
-
 
 export async function getStaticPaths() {
     const buttons = [
@@ -234,8 +97,10 @@ export async function getStaticPaths() {
     ];
 
     const paths = buttons.map(item => {
-        return {params: { category: `${item.name}` }
-    }});
+        return {params:
+                {category: `${item.name}`}
+        }
+    });
 
     return {
         paths,
@@ -243,26 +108,22 @@ export async function getStaticPaths() {
     };
 }
 
+
 export async function getStaticProps({ params }) {
+    const {category} = params;
+
     const data = await unfetch("http://localhost:3000/api/hello");
     const games = await data.json();
 
-
-
-    let filteredData = games.filter((item) =>
-        item.partitionKey.toLocaleLowerCase() === params.category);
-
-    if (params.category === "all") {
-        filteredData = games;
-    }
+    const filteredData =  category === "all" ? games : games.filter((item) => item.partitionKey.toLocaleLowerCase() === category);
 
     return {
         props: {
+            params: {category},
             filteredData,
         },
     };
-
 }
 
 
-export default HomePage;
+export default FilteredPage;
