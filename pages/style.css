@@ -24,6 +24,7 @@ table {
     border: 1px solid var(--border-color);
     text-align: center;
     table-layout: fixed;
+
 }
 .lower {
     border: none;
@@ -35,7 +36,7 @@ table {
 }
 
 .lower .right-column{
-    width: 85%;
+    width: 10%;
 }
 
 .category-table td,

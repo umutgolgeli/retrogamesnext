@@ -5,7 +5,6 @@ import BaseLayout from "../components/base_layout";
 const FilteredPage = ({filteredData}) => {
 
     return (
-        <BaseLayout>
                 <table className="games-table">
                     <tbody>
                     <tr>
@@ -34,7 +33,6 @@ const FilteredPage = ({filteredData}) => {
                         ))}
                     </tbody>
                 </table>
-        </BaseLayout>
     );
 };
 
