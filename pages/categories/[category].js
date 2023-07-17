@@ -10,6 +10,7 @@ export const config = {
 
 const FilteredPage = ({filteredData}) => {
 
+
     return (
                 <table className="games-table">
                     <tbody>
