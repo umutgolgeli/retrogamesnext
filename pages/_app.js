@@ -1,4 +1,4 @@
-import './style.css'
+import '../styles/style.css'
 import Head from 'next/head'
 import BaseLayout from "./components/base_layout";
 

@@ -1,6 +1,8 @@
 
 import unfetch from "isomorphic-unfetch";
 import BaseLayout from "../components/base_layout";
+import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
+
 
 const FilteredPage = ({filteredData}) => {
 
@@ -108,12 +110,34 @@ export async function getStaticPaths() {
     };
 }
 
+const account = "retrogamesstorage";
+const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
+const tableName = "retrogames";
+
+
+const credential = new AzureNamedKeyCredential(account,accountKey);
+const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
+export async function getTable() {
+    const entities = [];
+    let entitiesIter = client.listEntities();
+    let i = 1;
+    for await (const entity of entitiesIter) {
+        // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
+        entities.push(entity);
+        i++;
+    }
+    return entities;
+}
+
+
+
+
+
 
 export async function getStaticProps({ params }) {
     const {category} = params;
 
-    const data = await unfetch("http://localhost:3000/api/hello");
-    const games = await data.json();
+    const games = await getTable();
 
     const filteredData =  category === "all" ? games : games.filter((item) => item.partitionKey.toLocaleLowerCase() === category);
 
@@ -124,6 +148,4 @@ export async function getStaticProps({ params }) {
         },
     };
 }
-
-
 export default FilteredPage;

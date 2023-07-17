@@ -1,5 +1,6 @@
 import unfetch from "isomorphic-unfetch";
 import styles from "../styles/HomePage.module.css";
+import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
 
 function HomePage({games}) {
     return (
@@ -31,22 +32,43 @@ function HomePage({games}) {
                 </tbody>
             </table>
     );
-};
+}
+const account = "retrogamesstorage";
+const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
+const tableName = "retrogames";
 
+
+const credential = new AzureNamedKeyCredential(account,accountKey);
+const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
+
+
+export async function getTable() {
+    const entities = [];
+    let entitiesIter = client.listEntities();
+    let i = 1;
+    for await (const entity of entitiesIter) {
+        // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
+        entities.push(entity);
+        i++;
+    }
+    return entities;
+}
 
 
 export async function getStaticProps() {
-  try{  const data = await unfetch("http://localhost:3000/api/hello");
-    const games = await data.json();
-    return {
+  try {
+
+      const games = await getTable();
+
+      return {
         props: {
             games,
-        }
-    }
+            }
+      }
 }   catch (error)
-{
-  console.log(error)
-}
+    {
+      console.log(error)
+    }
 }
 
 export default HomePage;
