@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+
 export default function BaseLayout({children}){
     const buttons = [
         {
