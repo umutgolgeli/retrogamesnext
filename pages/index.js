@@ -2,6 +2,10 @@ import unfetch from "isomorphic-unfetch";
 import styles from "../styles/HomePage.module.css";
 import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
 
+export const config = {
+    unstable_runtimeJS: false
+};
+
 function HomePage({games}) {
     return (
             <table className={styles.homeContainer}>
@@ -51,6 +55,8 @@ export async function getTable() {
         entities.push(entity);
         i++;
     }
+    console.log("1.",entities);
+
     return entities;
 }
 

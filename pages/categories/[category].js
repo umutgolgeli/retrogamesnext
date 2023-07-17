@@ -3,6 +3,10 @@ import unfetch from "isomorphic-unfetch";
 import BaseLayout from "../components/base_layout";
 import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
 
+export const config = {
+    unstable_runtimeJS: false
+};
+
 
 const FilteredPage = ({filteredData}) => {
 
