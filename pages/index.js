@@ -6,6 +6,7 @@ export const config = {
     unstable_runtimeJS: false
 };
 
+
 function HomePage({games}) {
     return (
             <table className={styles.homeContainer}>
