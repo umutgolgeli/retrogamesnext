@@ -69,7 +69,7 @@ export default function BaseLayout({children}){
                     <td>
                         <img src="/bitsody_logo.png" alt="Logo" />
                     </td>
-                    <td className="title">Retro Games</td>
+                    <td className="title">Oğuzhan</td>
                 </tr>
                 </tbody>
             </table>
