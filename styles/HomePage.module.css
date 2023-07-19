@@ -19,14 +19,14 @@
 }
 
 .homeContainer tr > td :hover{
-    background-color: var(--border-color);
+    background-color: #ddd;
 }
 
 .homeContainer tr > td > a  {
     display: inline-block;
     padding: 4% 8%;
-    background-color: var(--primary-color);
-    color: var(--button-color);
+    background-color: #6699FF;
+    color: #FFFFFF;
     text-decoration: none;
 }
 
