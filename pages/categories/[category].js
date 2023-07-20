@@ -26,7 +26,9 @@ const FilteredPage = ({filteredData}) => {
                         filteredData.map((item) => (
                             <tr key={item.rowKey}>
                                 <td className="game-picture">
-                                    <img src={item.Image1} alt={item.rowKey} />
+                                    <a href={item.Image1} target={"_blank"}>
+                                        <img src={item.Image1} alt={item.rowKey} />
+                                    </a>
                                 </td>
                                 <td>{item.partitionKey}</td>
                                 <td>{item.rowKey}</td>

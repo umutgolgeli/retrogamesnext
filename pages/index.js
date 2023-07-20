@@ -22,7 +22,9 @@ function HomePage({games}) {
                     games.map((item) => (
                         <tr key={item.rowKey}>
                             <td >
-                                <img src={item.Image1} alt={item.rowKey} />
+                                <a href={item.Image1} target={"_blank"}>
+                                    <img src={item.Image1} alt={item.rowKey} />
+                                </a>
                             </td>
                             <td >{item.partitionKey}</td>
                             <td >{item.rowKey}</td>
@@ -56,7 +58,6 @@ export async function getTable() {
         entities.push(entity);
         i++;
     }
-    console.log("1.",entities);
 
     return entities;
 }
