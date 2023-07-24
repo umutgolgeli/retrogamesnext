@@ -71,14 +71,12 @@ table.upper{
 .category-table td:hover{
     cursor: pointer;
 }
-.game-picture{
-    width: 20%;
-}
-.game-picture a img{
+.game-picture img{
     margin-top: 2%;
     margin-bottom: 1%;
     width:30%;
 }
+
 .download-link:hover{
     color: #6699FF;
 }

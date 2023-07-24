@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styles from "../../styles/HomePage.module.css";
 
 
 export default function BaseLayout({children}){
@@ -61,6 +62,25 @@ export default function BaseLayout({children}){
         }
     ];
 
+
+    const pages = [{
+        name: "1",
+    },{
+        name: "2",
+    },{
+        name: "3",
+    },{
+        name: "4",
+    },{
+        name: "5",
+    },{
+        name: "6",
+    },{
+        name: "7",
+    },{
+        name: "8",
+    }]
+
     return (
         <div>
             <table className="upper">
@@ -96,10 +116,20 @@ export default function BaseLayout({children}){
                     </td>
                     <td>
                         {children}
+                        <div className={styles.buttonDiv}>
+                <span>
+                    <Link className={styles.numberButtons} href="" >&laquo;Previous</Link>
+                    {pages?.map((item) => (
+                        <Link className={styles.numberButtons} key={item.name} href="/pagination/[page]" as = {`/pagination/${item.name}`}>
+                            {item.name}</Link>))}
+                    <Link className={styles.numberButtons} href="">Next&raquo;</Link>
+                </span>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
+
         </div>
     )
 }

@@ -3,6 +3,7 @@
     border: 1px solid #ddd;
     text-align: center;
     table-layout: fixed;
+    height: 100px;
 }
 .homeContainer tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -26,7 +27,7 @@
     background-color: #ddd;
 }
 
-.homeContainer tr > td > a  {
+.downloadButton  {
     margin-top: 2%;
     margin-bottom: 1%;
     width:30%;
@@ -35,4 +36,49 @@
     background-color: #6699FF;
     color: #FFFFFF;
     text-decoration: none;
+}
+
+.myButton  {
+    margin-top: 2%;
+    margin-bottom: 1%;
+    width:30%;
+    display: inline-block;
+    padding: 4% 8%;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.homeContainer tr > td > a :hover {
+    background-color: #3366CC;
+}
+
+.pagination{
+    background-color: black;
+    height: 20px;
+    width: 10px;
+}
+
+.numberButtons{
+    cursor: pointer;
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    font-size: 20px;
+    margin-left: 2px;
+   background-color: #6699ff;
+    margin-top: 100px;
+    max-width: 5px;
+}
+
+.numberButtons:hover{
+    background-color: #ddd;
+}
+
+.numberButtons.active{
+    background-color: #3366CC;
+}
+
+.buttonDiv{
+    margin-top: 10px;
 }
