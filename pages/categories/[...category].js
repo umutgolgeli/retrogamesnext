@@ -2,6 +2,8 @@
 import unfetch from "isomorphic-unfetch";
 import BaseLayout from "../components/base_layout";
 import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
+import styles from "../../styles/HomePage.module.css";
+import Link from "next/link";
 
 export const config = {
     unstable_runtimeJS: false
@@ -10,8 +12,19 @@ export const config = {
 
 const FilteredPage = ({filteredData}) => {
 
+    console.log("filtered data :", filteredData);
+
+    const groupedData = {};
+
+    for (let i = 1; i <= 8; i++) {
+        groupedData[i-1] = i;
+    }
+
+    const pagesData = Object.values(groupedData);
+
 
     return (
+        <>
                 <table className="games-table">
                     <tbody>
                     <tr>
@@ -41,7 +54,18 @@ const FilteredPage = ({filteredData}) => {
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
+            <div className={styles.buttonDiv}>
+                    <span>
+                        <Link className={styles.numberButtons} href="" >&laquo;Previous</Link>
+                        {pagesData?.map((item) => (
+                            <Link className={styles.numberButtons} key={item} href="/[page]" as = {`/pagination/${item}`}>
+                                {item}</Link>))}
+                        <Link className={styles.numberButtons} href="">Next&raquo;</Link>
+                    </span>
+            </div>
+        </>
     );
 };
 
@@ -106,10 +130,10 @@ export async function getStaticPaths() {
     ];
 
     const paths = buttons.map(item => {
-        return {params:
-                {category: `${item.name}`}
-        }
+        return {params: `${item.name}` }
     });
+
+    console.log("PATHS:" ,paths)
 
     return {
         paths,
@@ -142,11 +166,14 @@ export async function getStaticProps({ params }) {
     const data = await unfetch("http://localhost:3000/api/hello");
     const games = await data.json();
     const filteredData =  category === "all" ? games : games.filter((item) => item.partitionKey.toLocaleLowerCase() === category);
+
+
     return {
         props: {
             params: {category},
             filteredData,
         },
     };
+
 }
 export default FilteredPage;
