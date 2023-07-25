@@ -1,5 +1,5 @@
-import BaseLayout from "../components/base_layout";
 import unfetch from "isomorphic-unfetch";
+import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
 
 export const config = {
     unstable_runtimeJS: false
@@ -42,9 +42,11 @@ const Pages = ({filteredData}) => {
 };
 
 export async function getStaticPaths() {
-    const pages = [{
+    const pages = [
+        {
         name: "1",
-    },{
+    },
+        {
         name: "2",
     },{
         name: "3",
@@ -59,6 +61,7 @@ export async function getStaticPaths() {
     },{
         name: "8",
     }]
+
     const paths = pages.map(item => {
         return {params:
                 {page: `${item.name}`}
@@ -70,32 +73,47 @@ export async function getStaticPaths() {
         fallback: false,
     };
 }
-
-export async function getStaticProps({ params }) {
-    const { page } = params;
-
-    const data = await unfetch("http://localhost:3000/api/hello");
-    const games = await data.json();
-    const size = games.length;
-
-    const groupedData = {};
-
-    for (let i = 1; i <= 8; i++) {
-        groupedData[i] = [];
+export async function getTable() {
+    const entities = [];
+    let entitiesIter = client.listEntities();
+    let i = 1;
+    for await (const entity of entitiesIter) {
+        // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
+        entities.push(entity);
+        i++;
     }
 
-    games.forEach((game, index) => {
-        const categoryIndex = index % 8 + 1;
-        if (groupedData[categoryIndex].length < 11) {
-            groupedData[categoryIndex].push(game);
-        }
-    });
-    const filteredData = groupedData[page];
+    return entities;
+}
+
+
+export async function getStaticProps({ params }) {
+
+    const account = "retrogamesstorage";
+    const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
+    const tableName = "retrogames";
+
+    const credential = new AzureNamedKeyCredential(account,accountKey);
+    const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
+
+    const pageSize = 10;
+    const page = 1;
+
+    const skip = (page - 1) * pageSize;
+    const top = pageSize;
+
+    const entities = [];
+    let entitiesIter = client.listEntities({ queryOptions: { filter: undefined, top, skip } });
+    for await (const entity of entitiesIter) {
+        entities.push(entity);
+    }
+
+
 
     return {
         props: {
             params: { page },
-            filteredData,
+            entities,
         },
     };
 }

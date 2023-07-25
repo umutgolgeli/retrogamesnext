@@ -4,15 +4,16 @@ import BaseLayout from "../components/base_layout";
 import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
 import styles from "../../styles/HomePage.module.css";
 import Link from "next/link";
+import Pagination from "../components/pagination";
 
 export const config = {
     unstable_runtimeJS: false
 };
 
 
-const FilteredPage = ({filteredData}) => {
+const FilteredPage = ({params,filteredData,size}) => {
 
-    console.log("filtered data :", filteredData);
+    console.log("params :", params.category);
 
     const groupedData = {};
 
@@ -57,13 +58,7 @@ const FilteredPage = ({filteredData}) => {
 
                 </table>
             <div className={styles.buttonDiv}>
-                    <span>
-                        <Link className={styles.numberButtons} href="" >&laquo;Previous</Link>
-                        {pagesData?.map((item) => (
-                            <Link className={styles.numberButtons} key={item} href="/[page]" as = {`/pagination/${item}`}>
-                                {item}</Link>))}
-                        <Link className={styles.numberButtons} href="">Next&raquo;</Link>
-                    </span>
+                    <Pagination size={size} categories={params.category}/>
             </div>
         </>
     );
@@ -129,11 +124,20 @@ export async function getStaticPaths() {
         }
     ];
 
-    const paths = buttons.map(item => {
-        return {params: `${item.name}` }
-    });
+    const account = "retrogamesstorage";
+    const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
+    const tableName = "retrogames";
 
-    console.log("PATHS:" ,paths)
+
+    const credential = new AzureNamedKeyCredential(account,accountKey);
+    const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
+
+
+    const paths = buttons.map(item => {
+        return {params:
+                {category: [`${item.name}`,]}
+        }
+    });
 
     return {
         paths,
@@ -163,15 +167,32 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
     const {category} = params;
-    const data = await unfetch("http://localhost:3000/api/hello");
-    const games = await data.json();
-    const filteredData =  category === "all" ? games : games.filter((item) => item.partitionKey.toLocaleLowerCase() === category);
 
+    const account = "retrogamesstorage";
+    const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
+    const tableName = "retrogames";
+
+
+    const credential = new AzureNamedKeyCredential(account,accountKey);
+    const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
+
+    const entities = [];
+    let entitiesIter = client.listEntities();
+    let i = 1;
+    for await (const entity of entitiesIter) {
+        // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
+        entities.push(entity);
+        i++;
+    }
+
+    const filteredData =  category === "all" ? entities : entities.filter((item) => item.partitionKey.toLocaleLowerCase() === category);
+    const size = filteredData.length;
 
     return {
         props: {
             params: {category},
             filteredData,
+            size,
         },
     };
 

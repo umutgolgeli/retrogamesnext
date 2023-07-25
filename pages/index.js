@@ -1,26 +1,13 @@
-import unfetch from "isomorphic-unfetch";
 import styles from "../styles/HomePage.module.css";
-import {AzureNamedKeyCredential, TableClient} from "@azure/data-tables";
-import Link from "next/link";
+import {AzureNamedKeyCredential, odata, TableClient} from "@azure/data-tables";
+import Pagination from "./components/pagination";
 
 export const config = {
     unstable_runtimeJS: false
 };
 
 
-function HomePage({games,size,page}) {
-
-    const groupedData = {};
-
-    console.log("##index.js worked##");
-
-    const myButtons = size%10;
-
-    for (let i = 1; i <= myButtons; i++) {
-        groupedData[i-1] = i;
-    }
-
-    const pagesData = Object.values(groupedData);
+function HomePage({games,size}) {
 
     return (
         <div>
@@ -34,7 +21,7 @@ function HomePage({games,size,page}) {
                         <th>Link</th>
                     </tr>
                         {games &&
-                            games.map((item) => (
+                            games.slice(0,10).map((item) => (
                                 <tr key={item.rowKey}>
                                     <td >
                                         <a className={styles.myButton} href={item.Image1} target={"_blank"}>
@@ -55,47 +42,52 @@ function HomePage({games,size,page}) {
 
                 </tbody>
             </table>
-                <div className={styles.buttonDiv}>
-                    <span>
-                        <Link className={styles.numberButtons} href="" >&laquo;Previous</Link>
-                        {pagesData?.map((item) => (
-                            <Link className={styles.numberButtons} key={item} href="/pagination/[page]" as = {`/pagination/${item}`}>
-                                {item}</Link>))}
-                        <Link className={styles.numberButtons} href="">Next&raquo;</Link>
-                    </span>
-                </div>
+            <Pagination size={size} />
         </div>
     );
 
 
 }
-// const account = "retrogamesstorage";
-// const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
-// const tableName = "retrogames";
-//
-//
-// const credential = new AzureNamedKeyCredential(account,accountKey);
-// const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
-//
-//
-// export async function getTable() {
-//     const entities = [];
-//     let entitiesIter = client.listEntities();
-//     let i = 1;
-//     for await (const entity of entitiesIter) {
-//         // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
-//         entities.push(entity);
-//         i++;
-//     }
-//
-//     return entities;
-// }
 
 
 export async function getStaticProps() {
-    try{  const data = await unfetch("http://localhost:3000/api/hello");
-        const games = await data.json();
+    try{
+        const account = "retrogamesstorage";
+        const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
+        const tableName = "retrogames";
+
+
+        const credential = new AzureNamedKeyCredential(account,accountKey);
+        const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
+
+
+
+        const entities = client.listEntities();
+
+        let topEntities = [];
+        const iterator = entities.byPage();
+
+        for await (const page of iterator) {
+            topEntities = page;
+            break;
+        }
+
+
+// List all the entities in the table
+
+        // let entitiesIter = client.listEntities();
+        // console.log("Entities : ", entitiesIter)
+
+
+        // for await (const entity of entitiesIter) {
+        //     // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
+        //     entities.push(entity);
+        // }
+
+
+        const games = topEntities;
         const size = games.length;
+        console.log("games :", games.length, "size :", size)
 
         return {
             props: {
