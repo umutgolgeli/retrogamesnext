@@ -129,7 +129,6 @@ export default function BaseLayout({children}){
                 </tr>
                 </tbody>
             </table>
-
         </div>
     )
 }
