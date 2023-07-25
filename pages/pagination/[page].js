@@ -73,8 +73,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
     const { page } = params;
+
     const data = await unfetch("http://localhost:3000/api/hello");
     const games = await data.json();
+    const size = games.length;
 
     const groupedData = {};
 
@@ -98,17 +100,4 @@ export async function getStaticProps({ params }) {
     };
 }
 
-
-// export async function getStaticProps({ params }) {
-//     const {category} = params;
-//     const data = await unfetch("http://localhost:3000/api/hello");
-//     const games = await data.json();
-//     const filteredData =  category === "all" ? games : games.filter((item) => item.partitionKey.toLocaleLowerCase() === category);
-//     return {
-//         props: {
-//             params: {category},
-//             filteredData,
-//         },
-//     };
-// }
 export default Pages;
