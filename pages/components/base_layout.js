@@ -5,26 +5,6 @@ import unfetch from "isomorphic-unfetch";
 
 export default function BaseLayout(props){
 
-    const pages = [
-        {
-            name: "1",
-        },
-        {
-            name: "2",
-        },{
-            name: "3",
-        },{
-            name: "4",
-        },{
-            name: "5",
-        },{
-            name: "6",
-        },{
-            name: "7",
-        },{
-            name: "8",
-        }]
-
     const buttons = [
         {
             name: "all",
@@ -109,7 +89,7 @@ export default function BaseLayout(props){
                             {buttons?.map((item) => (
                                 <tr key={item.name}>
                                     <td className="td-button">
-                                        <Link className="link" href="/categories/[...category]" as = {`/categories/${item.name}`}>
+                                        <Link className="link" href="/categories/[[...category]]" as = {`/categories/${item.name}/1`}>
                                             {item.value}
                                         </Link>
                                     </td>

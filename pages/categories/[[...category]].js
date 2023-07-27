@@ -13,7 +13,8 @@ export const config = {
 
 const FilteredPage = ({params,filteredData,size}) => {
 
-    console.log("params :", params.category);
+    const pageNum = params.category[1];
+
 
     const groupedData = {};
 
@@ -22,7 +23,6 @@ const FilteredPage = ({params,filteredData,size}) => {
     }
 
     const pagesData = Object.values(groupedData);
-
 
     return (
         <>
@@ -36,8 +36,8 @@ const FilteredPage = ({params,filteredData,size}) => {
                         <th>Link</th>
                     </tr>
 
-                    {filteredData &&
-                        filteredData.map((item) => (
+                    {filteredData&&
+                        filteredData.slice((pageNum-1)*10,10*pageNum).map((item) => (
                             <tr key={item.rowKey}>
                                 <td className="game-picture">
                                     <a  href={item.Image1} target={"_blank"}>
@@ -55,10 +55,9 @@ const FilteredPage = ({params,filteredData,size}) => {
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
             <div className={styles.buttonDiv}>
-                    <Pagination size={size} categories={params.category}/>
+                    <Pagination  categories={params.category} size={size}/>
             </div>
         </>
     );
@@ -91,8 +90,8 @@ export async function getStaticPaths() {
             value: "Miscellaneous",
         },
         {
-            name: "platform Game",
-            value: "Platform",
+            name: "platform",
+            value: "Platform Game",
         },
         {
             name: "puzzle",
@@ -127,44 +126,62 @@ export async function getStaticPaths() {
     const account = "retrogamesstorage";
     const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
     const tableName = "retrogames";
-
-
     const credential = new AzureNamedKeyCredential(account,accountKey);
     const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
+    const entities = [];
+    let entitiesIter = client.listEntities();
+    for await (const entity of entitiesIter) {
+        entities.push(entity);
+    }
+    const sizeOfTable = entities.length;
 
+    const categoryCounts = {};
 
-    const paths = buttons.map(item => {
-        return {params:
-                {category: [`${item.name}`,]}
+    categoryCounts["all"] = sizeOfTable;
+
+    for (const entity of entities) {
+        const partitionKey = entity.partitionKey;
+        for (const button of buttons) {
+            if (button.value === partitionKey) {
+                if (categoryCounts[partitionKey]) {
+                    categoryCounts[partitionKey]++;
+                } else {
+                    categoryCounts[partitionKey] = 1;
+                }
+                break;
+            }
         }
-    });
+    }
+
+
+    const paths = [];
+    for (const button of buttons) {
+        const categoryName = button.name;
+        let categoryCount;
+        let pageCount;
+        if (categoryName === "all") {
+             categoryCount = categoryCounts[button.name] || 0;
+             pageCount = Math.ceil(categoryCount / 10);
+        }
+        else{
+             categoryCount = categoryCounts[button.value] || 0;
+             pageCount = Math.ceil(categoryCount / 10);
+        }
+
+        for (let i = 1; i <= pageCount; i++) {
+            paths.push({
+                params: {
+                    category: [categoryName, i.toString()],
+                },
+            });
+        }
+    }
 
     return {
         paths,
         fallback: false,
     };
 }
-//
-// const account = "retrogamesstorage";
-// const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
-// const tableName = "retrogames";
-//
-//
-// const credential = new AzureNamedKeyCredential(account,accountKey);
-// const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
-// export async function getTable() {
-//     const entities = [];
-//     let entitiesIter = client.listEntities();
-//     let i = 1;
-//     for await (const entity of entitiesIter) {
-//         // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
-//         entities.push(entity);
-//         i++;
-//     }
-//     return entities;
-// }
-//
-
 export async function getStaticProps({ params }) {
     const {category} = params;
 
@@ -172,21 +189,17 @@ export async function getStaticProps({ params }) {
     const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
     const tableName = "retrogames";
 
-
     const credential = new AzureNamedKeyCredential(account,accountKey);
     const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
     const entities = [];
     let entitiesIter = client.listEntities();
-    let i = 1;
     for await (const entity of entitiesIter) {
-        // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
         entities.push(entity);
-        i++;
     }
 
-    const filteredData =  category === "all" ? entities : entities.filter((item) => item.partitionKey.toLocaleLowerCase() === category);
-    const size = filteredData.length;
+    const filteredData =  category[0] === "all" ? entities : entities.filter((item) => item.partitionKey.toLocaleLowerCase() === category[0]);
+    const size = Math.ceil(filteredData.length/10);
 
     return {
         props: {

@@ -76,9 +76,11 @@
 }
 
 .numberButtons.active{
-    background-color: #3366CC;
+    background-color: red;
 }
-
+.numberButtons.visited{
+    background-color: red;
+}
 .buttonDiv{
     margin-top: 10px;
 }

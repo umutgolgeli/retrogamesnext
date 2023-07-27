@@ -9,6 +9,9 @@ export const config = {
 
 function HomePage({games,size}) {
 
+
+
+
     return (
         <div>
             <table className={styles.homeContainer}>
@@ -86,8 +89,8 @@ export async function getStaticProps() {
 
 
         const games = topEntities;
-        const size = games.length;
-        console.log("games :", games.length, "size :", size)
+
+        const size = Math.ceil(games.length/10);
 
         return {
             props: {
