@@ -208,6 +208,5 @@ export async function getStaticProps({ params }) {
             size,
         },
     };
-
 }
 export default FilteredPage;
