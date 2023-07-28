@@ -1,6 +1,5 @@
 import Link from "next/link";
-import styles from "../../styles/HomePage.module.css";
-import unfetch from "isomorphic-unfetch";
+
 
 
 export default function BaseLayout(props){
@@ -89,7 +88,7 @@ export default function BaseLayout(props){
                             {buttons?.map((item) => (
                                 <tr key={item.name}>
                                     <td className="td-button">
-                                        <Link className="link" href="/categories/[...category]" as = {`/categories/${item.value.toLocaleLowerCase()}/1`}>
+                                        <Link className="link" href="/categories/[...category]" as = {`/categories/${item.value.toLocaleLowerCase()}/1.html  `}>
                                             {item.value}
                                         </Link>
                                     </td>

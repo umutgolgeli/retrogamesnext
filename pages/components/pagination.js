@@ -14,14 +14,14 @@ export default function Pagination({categories,size}){
     return(
         <div className={styles.buttonDiv}>
                     <span>
-                        <Link className={styles.numberButtons} href={`/categories/${type}/${pageNum > 1 ? Number(pageNum)-1 : 1}`} >&laquo;Previous</Link>
+                        <Link className={styles.numberButtons} href={`/categories/${type}/${pageNum > 1 ? Number(pageNum)-1 : 1}.html`} >&laquo;Previous</Link>
                         {numberArray?.map((item) => (
                             <Link className={styles.numberButtons}
                                   key={item}
-                                  href={`/categories/${type}/${item}`}>
+                                  href={`/categories/${type}/${item}.html`}>
                                 {item}</Link>)
                         )}
-                        <Link className={styles.numberButtons}  href={`/categories/${type}/${Number(pageNum)+1 > size ? size :Number(pageNum)+1}`}>Next&raquo;</Link>
+                        <Link className={styles.numberButtons}  href={`/categories/${type}/${Number(pageNum)+1 > size ? size :Number(pageNum)+1}.html`}>Next&raquo;</Link>
                     </span>
         </div>
     )
