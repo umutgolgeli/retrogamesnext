@@ -51,7 +51,6 @@ const FilteredPage = ({params,filteredData,size}) => {
         </>
     );
 };
-
 export async function getStaticPaths() {
     const buttons = [
         {
@@ -161,10 +160,6 @@ export async function getStaticPaths() {
                 },
             });
         }
-    }
-
-    for (const o of paths) {
-        console.log(o);
     }
 
     return {
