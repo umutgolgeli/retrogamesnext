@@ -31,7 +31,7 @@ export default function BaseLayout(props){
             value: "Miscellaneous",
         },
         {
-            name: "platform Game",
+            name: "Platform game",
             value: "Platform",
         },
         {
@@ -89,7 +89,7 @@ export default function BaseLayout(props){
                             {buttons?.map((item) => (
                                 <tr key={item.name}>
                                     <td className="td-button">
-                                        <Link className="link" href="/categories/[[...category]]" as = {`/categories/${item.name}/1`}>
+                                        <Link className="link" href="/categories/[...category]" as = {`/categories/${item.value.toLocaleLowerCase()}/1`}>
                                             {item.value}
                                         </Link>
                                     </td>

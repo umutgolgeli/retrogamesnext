@@ -11,8 +11,6 @@ export default function Pagination({categories,size}){
         numberArray.push(i);
     }
 
-
-
     return(
         <div className={styles.buttonDiv}>
                     <span>
@@ -21,7 +19,8 @@ export default function Pagination({categories,size}){
                             <Link className={styles.numberButtons}
                                   key={item}
                                   href={`/categories/${type}/${item}`}>
-                                {item}</Link>))}
+                                {item}</Link>)
+                        )}
                         <Link className={styles.numberButtons}  href={`/categories/${type}/${Number(pageNum)+1 > size ? size :Number(pageNum)+1}`}>Next&raquo;</Link>
                     </span>
         </div>

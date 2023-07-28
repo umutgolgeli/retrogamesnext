@@ -5,13 +5,7 @@ import Pagination from "./components/pagination";
 export const config = {
     unstable_runtimeJS: false
 };
-
-
 function HomePage({games,size}) {
-
-
-
-
     return (
         <div>
             <table className={styles.homeContainer}>
@@ -41,32 +35,20 @@ function HomePage({games,size}) {
                                     </td>
                                 </tr>
                         ))}
-
-
                 </tbody>
             </table>
             <Pagination size={size} />
         </div>
     );
-
-
 }
-
-
 export async function getStaticProps() {
     try{
         const account = "retrogamesstorage";
         const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
         const tableName = "retrogames";
-
-
         const credential = new AzureNamedKeyCredential(account,accountKey);
         const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
-
-
-
         const entities = client.listEntities();
-
         let topEntities = [];
         const iterator = entities.byPage();
 
@@ -74,19 +56,6 @@ export async function getStaticProps() {
             topEntities = page;
             break;
         }
-
-
-// List all the entities in the table
-
-        // let entitiesIter = client.listEntities();
-        // console.log("Entities : ", entitiesIter)
-
-
-        // for await (const entity of entitiesIter) {
-        //     // const item = `Entity${i} - PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey} SetupFile: ${entity.SetupFile} Image:${entity.Image}`;
-        //     entities.push(entity);
-        // }
-
 
         const games = topEntities;
 

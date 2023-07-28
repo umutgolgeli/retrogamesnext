@@ -9,20 +9,9 @@ import Pagination from "../components/pagination";
 export const config = {
     unstable_runtimeJS: false
 };
-
-
 const FilteredPage = ({params,filteredData,size}) => {
 
     const pageNum = params.category[1];
-
-
-    const groupedData = {};
-
-    for (let i = 1; i <= 8; i++) {
-        groupedData[i-1] = i;
-    }
-
-    const pagesData = Object.values(groupedData);
 
     return (
         <>
@@ -122,7 +111,6 @@ export async function getStaticPaths() {
             value: "Tactical",
         }
     ];
-
     const account = "retrogamesstorage";
     const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
     const tableName = "retrogames";
@@ -152,8 +140,6 @@ export async function getStaticPaths() {
             }
         }
     }
-
-
     const paths = [];
     for (const button of buttons) {
         const categoryName = button.name;
@@ -177,6 +163,10 @@ export async function getStaticPaths() {
         }
     }
 
+    for (const o of paths) {
+        console.log(o);
+    }
+
     return {
         paths,
         fallback: false,
@@ -184,23 +174,18 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params }) {
     const {category} = params;
-
     const account = "retrogamesstorage";
     const accountKey = "IQO22MPzKrK8OgfK/L7Z4kFxl3LzoVQxcuScqZ+bTw0ALrFLD/uFP35ftCGR/+LEHIURjFMot8iQ+AStQfROJQ==";
     const tableName = "retrogames";
-
     const credential = new AzureNamedKeyCredential(account,accountKey);
     const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
-
     const entities = [];
     let entitiesIter = client.listEntities();
     for await (const entity of entitiesIter) {
         entities.push(entity);
     }
-
     const filteredData =  category[0] === "all" ? entities : entities.filter((item) => item.partitionKey.toLocaleLowerCase() === category[0]);
     const size = Math.ceil(filteredData.length/10);
-
     return {
         props: {
             params: {category},
