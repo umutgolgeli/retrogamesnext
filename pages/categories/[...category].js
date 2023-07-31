@@ -29,17 +29,20 @@ const FilteredPage = ({params,filteredData,size}) => {
                         filteredData.slice((pageNum-1)*10,10*pageNum).map((item) => (
                             <tr key={item.rowKey}>
                                 <td className="game-picture">
-                                    <a  href={item.Image1} target={"_blank"}>
+                                    <a className="photoLink"  href={item.Image1} target={"_blank"}>
                                         <img src={item.Image1} alt={item.rowKey} />
                                     </a>
                                 </td>
                                 <td>{item.partitionKey}</td>
-                                <td>{item.rowKey}</td>
+
+                                <td >{item.rowKey}</td>
                                 <td>{item.ReleaseDate}</td>
                                 <td className="download-link">
-                                    <a href={item.SetupFile} className="download-button">
-                                        Download
-                                    </a>
+                                    <div className={styles.downloadButtonContainer}>
+                                        <a className={styles.downloadButton} href={item.SetupFile} >
+                                            Download
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
