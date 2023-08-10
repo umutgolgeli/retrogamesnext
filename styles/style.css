@@ -54,7 +54,6 @@ table.upper{
 }
 .games-table td{
     vertical-align: middle;
-    height: 50px;
 }
 
 .games-table tr:nth-child(even){
@@ -74,8 +73,10 @@ table.upper{
 .game-picture img{
     margin-top: 2%;
     margin-bottom: 1%;
-    width:30%;
+    height: 70px;
+    width: 100px;
 }
+
 
 .download-link:hover{
     color: #6699FF;

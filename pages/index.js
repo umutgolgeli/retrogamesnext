@@ -1,6 +1,8 @@
 import styles from "../styles/HomePage.module.css";
 import {AzureNamedKeyCredential, odata, TableClient} from "@azure/data-tables";
 import Pagination from "./components/pagination";
+import url from "url";
+
 
 export const config = {
     unstable_runtimeJS: false
@@ -29,9 +31,11 @@ function HomePage({games,size}) {
                                     <td >{item.rowKey}</td>
                                     <td >{item.ReleaseDate}</td>
                                     <td >
-                                        <a className={styles.downloadButton} href={item.SetupFile} >
-                                            Download
-                                        </a>
+                                        <div className={styles.downloadButtonContainer}>
+                                            <a className={styles.downloadButton} href={item.SetupFile} >
+                                                Download
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                         ))}
