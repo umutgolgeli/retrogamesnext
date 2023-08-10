@@ -64,7 +64,6 @@ table.upper{
     background-color: #f2f2f2;
 }
 
-
 .category-table td{
     border: 1px solid #dcdcdc;
 }
@@ -84,9 +83,9 @@ table.upper{
 }
 
 .download-button {
+    background-color: #6699ff;
     display: inline-block;
     padding: 4% 8%;
-    background-color: #6699FF;
     color: #FFFFFF;
     text-decoration: none;
 }

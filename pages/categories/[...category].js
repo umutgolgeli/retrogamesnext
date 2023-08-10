@@ -29,7 +29,8 @@ const FilteredPage = ({params,filteredData,size}) => {
                         filteredData.slice((pageNum-1)*10,10*pageNum).map((item) => (
                             <tr key={item.rowKey}>
                                 <td className="game-picture">
-                                    <a className="photoLink"  href={item.Image1} target={"_blank"}>
+                                        <a  className="photoLink" href={item.Image1} target={"_blank"}>
+
                                         <img src={item.Image1} alt={item.rowKey} />
                                     </a>
                                 </td>
