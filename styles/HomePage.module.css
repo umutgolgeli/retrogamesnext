@@ -21,16 +21,22 @@
  }
 
 
+
 .downloadButton  {
+    background-color: #6699ff;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    width:30%;
     display: inline-block;
-    color: black;
+    padding: 4% 8%;
+    color: #FFFFFF;
     text-decoration: none;
     padding: 2px 5px 2px 5px;
     border: 1px solid #ddd;
     height: 20px;
     width: 117px;
-
 }
+
 
 .downloadButtonContainer{
     background-image: url("../public/button.jpeg");
@@ -42,6 +48,13 @@
 
 }
 
+
+
+.buttonContainer{
+    position: relative;
+    display: inline-block;
+    width: 10px;
+}
 
 .myButton  {
     margin-top: 2%;
