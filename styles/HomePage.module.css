@@ -23,12 +23,12 @@
 
 
 .downloadButton  {
-    margin-top: 2%;
+
     margin-bottom: 1%;
     width:30%;
     display: inline-block;
     padding: 4% 8%;
-    color: #FFFFFF;
+    color: #000000;
     text-decoration: none;
     padding: 2px 5px 2px 5px;
     border: 1px solid #ddd;
